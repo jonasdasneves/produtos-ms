@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments :: head('Detalhes do Produto')}"></th:block>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
+<div th:replace="~{fragments :: navbar}"></div>
+
+<!-- Conteúdo principal -->
+<main class="container my-5 flex-grow-1">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/produtos" class="text-decoration-none">Produtos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Notebook Dell Inspiron 15</li>
+        </ol>
+    </nav>
+
+    <!-- Card de detalhes -->
+    <div class="card shadow-sm">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="row g-4">
+
+                <!-- Coluna esquerda: ícone / imagem placeholder -->
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <div class="bg-light rounded-3 p-5 text-center w-100">
+                        <i class="bi bi-box-seam text-secondary" style="font-size: 7rem;"></i>
+                        <p class="text-muted mt-2 mb-0 small">Imagem não disponível</p>
+                    </div>
+                </div>
+
+                <!-- Coluna direita: informações -->
+                <div class="col-md-8">
+
+                    <!-- Nome e categoria -->
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-success">NOVO</span>
+                        <small class="text-muted">ID: 550e8400-e29b-41d4-a716-446655440000</small>
+                    </div>
+                    <h2 class="fw-bold mb-3">Notebook Dell Inspiron 15</h2>
+
+                    <!-- Preço -->
+                    <div class="mb-4">
+                        <span class="display-6 fw-bold text-dark">R$ 4.299,99</span>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase text-muted fw-semibold mb-2">Descrição</h6>
+                        <p class="text-secondary lh-lg">
+                            Notebook com processador Intel Core i7 de 12ª geração, 16 GB de RAM DDR4
+                            e SSD NVMe de 512 GB. Ideal para uso profissional e multitarefa exigente.
+                        </p>
+                    </div>
+
+                    <!-- Tabela de especificações rápidas -->
+                    <div class="mb-4">
+                        <h6 class="text-uppercase text-muted fw-semibold mb-2">Informações</h6>
+                        <table class="table table-sm table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-semibold text-muted" style="width:160px">Categoria</td>
+                                    <td>Novo</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-semibold text-muted">Preço</td>
+                                    <td>R$ 4.299,99</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-semibold text-muted">Cadastrado em</td>
+                                    <td>19/03/2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Ações -->
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="/produtos/1/editar" class="btn btn-warning fw-semibold">
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        </a>
+                        <button type="button" class="btn btn-outline-danger fw-semibold"
+                                data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                            <i class="bi bi-trash3 me-1"></i> Excluir
+                        </button>
+                        <a href="/produtos" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Voltar
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- Modal de confirmação de exclusão -->
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="modalExcluirLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Confirmar Exclusão
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body text-secondary">
+                Tem certeza que deseja excluir o produto
+                <strong class="text-dark">Notebook Dell Inspiron 15</strong>?
+                Esta ação não pode ser desfeita.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form action="/produtos/1" method="post" class="d-inline">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash3 me-1"></i> Sim, excluir
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments :: footer}"></div>
+
+<!-- Scripts -->
+<div th:replace="~{fragments :: scripts}"></div>
+</body>
+</html>
+

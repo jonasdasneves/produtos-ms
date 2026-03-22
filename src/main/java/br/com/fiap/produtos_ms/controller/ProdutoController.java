@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/produtos")
-public class ProdutoRepository {
+public class ProdutoController {
 
     private final ProdutoService service;
 
-    public ProdutoRepository(ProdutoService service) {
+    public ProdutoController(ProdutoService service) {
         this.service = service;
     }
+
+
 }

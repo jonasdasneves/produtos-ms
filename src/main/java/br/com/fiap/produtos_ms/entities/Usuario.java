@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name = "USUARIO")
 public class Usuario {
 
     @Id
@@ -22,6 +22,8 @@ public class Usuario {
     public Usuario(String login) {
         this.login = login;
         this.roles = new HashSet<>();
+
+        roles.add("ROLE_PRODUTO");
     }
 
     public String getLogin() {

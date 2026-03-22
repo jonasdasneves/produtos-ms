@@ -2,10 +2,12 @@ package br.com.fiap.produtos_ms.service;
 
 import br.com.fiap.produtos_ms.entities.Produto;
 import br.com.fiap.produtos_ms.repositories.ProdutoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 final class ProdutoServiceImpl implements ProdutoService {
 
     private final ProdutoRepository repository;

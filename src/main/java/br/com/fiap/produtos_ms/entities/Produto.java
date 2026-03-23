@@ -1,5 +1,6 @@
 package br.com.fiap.produtos_ms.entities;
 
+import br.com.fiap.produtos_ms.enums.CategoriaEnum;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
@@ -20,8 +21,8 @@ import java.util.UUID;
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Length(min = 10, max = 150, message = "O nome do produto deve ter entre 10 e 150 caracteres")
     private String nome;
@@ -42,10 +43,4 @@ public class Produto {
         this.preco = preco;
         this.categoriaEnum = categoriaEnum;
     }
-}
-
-enum CategoriaEnum {
-    NOVO,
-    USADO,
-    REFORMADO
 }

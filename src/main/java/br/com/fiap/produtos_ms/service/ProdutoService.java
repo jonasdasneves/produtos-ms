@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface ProdutoService {
     Produto save(Produto produto);
-    Produto findById(UUID id);
+    Produto findById(Long id);
     List<Produto> findAll();
-    void delete(UUID id);
+    void delete(Long id);
 }

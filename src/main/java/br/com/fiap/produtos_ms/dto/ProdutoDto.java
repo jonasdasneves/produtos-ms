@@ -11,9 +11,12 @@ import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProdutoDto {
+
+    private Long id;
 
     private String nome;
 
@@ -24,53 +27,27 @@ public class ProdutoDto {
     @Enumerated(EnumType.STRING)
     private CategoriaEnum categoriaEnum;
 
+    public ProdutoDto(Long id) {
+        this.id = id;
+    }
+
     public Produto toEntity(ProdutoDto produto) {
         return new Produto(
-                produto.getNome(),
-                produto.getDescricao(),
-                produto.getPreco(),
-                produto.getCategoriaEnum()
+                this.getId(),
+                this.getNome(),
+                this.getDescricao(),
+                this.getPreco(),
+                this.getCategoriaEnum()
         );
     }
 
     public ProdutoDto toDto(Produto produto) {
         return new ProdutoDto(
+                produto.getId(),
                 produto.getNome(),
                 produto.getDescricao(),
                 produto.getPreco(),
                 produto.getCategoriaEnum()
         );
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public CategoriaEnum getCategoriaEnum() {
-        return categoriaEnum;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
-    public void setCategoriaEnum(CategoriaEnum categoriaEnum) {
-        this.categoriaEnum = categoriaEnum;
     }
 }

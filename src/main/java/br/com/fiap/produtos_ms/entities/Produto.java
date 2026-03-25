@@ -37,7 +37,8 @@ public class Produto {
     @Enumerated(EnumType.STRING)
     private CategoriaEnum categoriaEnum;
 
-    public Produto(String nome, String descricao, BigDecimal preco, CategoriaEnum categoriaEnum) {
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, CategoriaEnum categoriaEnum) {
+        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;

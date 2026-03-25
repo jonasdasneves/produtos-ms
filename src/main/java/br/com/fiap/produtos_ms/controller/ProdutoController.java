@@ -45,6 +45,49 @@ public class ProdutoController extends CommonController{
         return "produto-form";
     }
 
+    @GetMapping("/produtos/editar/{id}")
+    public String telaEdicao(Model model, @PathVariable Long id) {
+        Produto produto = service.findById(id);
+
+        if (produto != null) {
+            model.addAttribute("produto", produto);
+
+            return "produto-form";
+        }
+        else{
+            ProdutoDto novoProduto = new ProdutoDto(id);
+            model.addAttribute("produto", novoProduto);
+
+            return "produto-form";
+        }
+    }
+
+    @GetMapping("/produtos/{id}")
+    public String findProdutoById(Model model, @PathVariable Long id) {
+
+        Produto produto = service.findById(id);
+
+        if (produto != null) {
+            model.addAttribute("produto", produto);
+
+            return "produto-detalhes";
+        }
+        else{
+            ProdutoDto novoProduto = new ProdutoDto(id);
+            model.addAttribute("produto", novoProduto);
+
+            return "produto-form";
+        }
+    }
+
+    @DeleteMapping("/produtos/{id}")
+    public String deleteProdutoById(@PathVariable Long id) {
+
+        this.service.delete(id);
+
+        return "redirect:/produtos";
+    }
+
     @PostMapping("/produtos/save")
     public String save(Model model, @ModelAttribute ProdutoDto produto){
 

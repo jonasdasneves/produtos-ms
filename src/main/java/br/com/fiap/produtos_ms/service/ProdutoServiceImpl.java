@@ -5,6 +5,7 @@ import br.com.fiap.produtos_ms.repositories.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,12 +23,14 @@ final class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Produto findById(UUID id) {
-        return this.repository.findById(id).orElseThrow();
+    public Produto findById(Long id) {
+        Optional<Produto> produto = this.repository.findById(id);
+
+        return produto.orElse(null);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         this.repository.deleteById(id);
     }
 

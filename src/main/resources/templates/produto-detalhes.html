@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Produto</title>
+    <title th:text="#{produto.detalhes.page.title}">Detalhes do Produto</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -12,18 +12,6 @@
     <div th:replace="~{fragments.html :: navbar}"></div>
 
     <div class="bg-white p-4 mt-4 shadow-md rounded-md">
-
-        <!-- Breadcrumb -->
-        <nav class="mb-6">
-            <ol class="flex items-center space-x-2 text-sm">
-                <li>
-                    <a href="/produtos" class="text-gray-500 hover:text-gray-700">Produtos</a>
-                </li>
-                <li class="text-gray-400">/</li>
-                <li class="text-gray-800 font-medium">Notebook Dell Inspiron 15</li>
-            </ol>
-        </nav>
-
         <!-- Card de detalhes -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -33,7 +21,7 @@
                     <svg class="w-20 h-20 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                     </svg>
-                    <p class="text-gray-400 mt-3 text-sm">Imagem não disponível</p>
+                    <p class="text-gray-400 mt-3 text-sm" th:text="#{produto.imagem.indisponivel}">Imagem não disponível</p>
                 </div>
             </div>
 
@@ -42,41 +30,25 @@
 
                 <!-- Nome e categoria -->
                 <div class="flex items-center gap-3 mb-2">
-                    <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded">NOVO</span>
-                    <span class="text-gray-400 text-sm">ID: 550e8400-e29b-41d4-a716-446655440000</span>
+                    <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded"
+                          th:text="#{|categoria.${produto.categoriaEnum}|}"></span>
+                    <span class="text-gray-400 text-sm" th:text="${produto.id}"></span>
                 </div>
-                <h1 class="text-2xl font-bold text-gray-800 mb-4">Notebook Dell Inspiron 15</h1>
+                <h1 class="text-2xl font-bold text-gray-800 mb-4" th:text="${produto.nome}">Nome do Produto</h1>
 
                 <!-- Preço -->
                 <div class="mb-6">
-                    <span class="text-3xl font-bold text-gray-900">R$ 4.299,99</span>
-                </div>
-
-                <!-- Descrição -->
-                <div class="mb-6">
-                    <h2 class="text-xs uppercase text-gray-500 font-semibold mb-2">Descrição</h2>
-                    <p class="text-gray-600 leading-relaxed">
-                        Notebook com processador Intel Core i7 de 12ª geração, 16 GB de RAM DDR4
-                        e SSD NVMe de 512 GB. Ideal para uso profissional e multitarefa exigente.
-                    </p>
+                    <span class="text-3xl font-bold text-gray-900" th:text="${produto.preco}">R$ 0,00</span>
                 </div>
 
                 <!-- Informações -->
                 <div class="mb-6">
-                    <h2 class="text-xs uppercase text-gray-500 font-semibold mb-2">Informações</h2>
+                    <h2 class="text-xs uppercase text-gray-500 font-semibold mb-2" th:text="#{common.informacoes}">Informações</h2>
                     <div class="bg-gray-50 rounded-lg p-4">
                         <div class="grid grid-cols-2 gap-3 text-sm">
                             <div>
-                                <span class="text-gray-500">Categoria</span>
-                                <p class="font-medium text-gray-800">Novo</p>
-                            </div>
-                            <div>
-                                <span class="text-gray-500">Preço</span>
-                                <p class="font-medium text-gray-800">R$ 4.299,99</p>
-                            </div>
-                            <div>
-                                <span class="text-gray-500">Cadastrado em</span>
-                                <p class="font-medium text-gray-800">19/03/2026</p>
+                                <span class="text-gray-500" th:text="#{common.categoria}">Categoria</span>
+                                <p class="font-medium text-gray-800" th:text="#{|categoria.${produto.categoriaEnum}|}">-</p>
                             </div>
                         </div>
                     </div>
@@ -84,15 +56,15 @@
 
                 <!-- Ações -->
                 <div class="flex flex-wrap gap-3">
-                    <a href="/produtos/1/editar" class="px-4 py-2 bg-yellow-400 text-gray-900 font-semibold rounded hover:bg-yellow-500 transition">
-                        Editar
-                    </a>
-                    <button type="button" id="btnExcluir" class="px-4 py-2 border border-red-500 text-red-500 font-semibold rounded hover:bg-red-50 transition">
-                        Excluir
-                    </button>
-                    <a href="/produtos" class="px-4 py-2 border border-gray-400 text-gray-700 rounded hover:bg-gray-100 transition">
-                        Voltar
-                    </a>
+                    <a th:href="${'editar/' + produto.id}"
+                       class="px-4 py-2 bg-yellow-400 text-gray-900 font-semibold rounded bg-yellow-500 transition"
+                       th:text="#{produto.detalhes.acao.editar}">Editar</a>
+                    <button type="button" id="btnExcluir"
+                            class="px-4 py-2 border border-red-500 text-red-500 font-semibold rounded hover:bg-red-50 transition"
+                            th:text="#{produto.detalhes.acao.excluir}">Excluir</button>
+                    <a th:href="@{/produtos}"
+                       class="px-4 py-2 border border-gray-400 text-gray-700 rounded bg-gray-100 transition"
+                       th:text="#{produto.detalhes.acao.voltar}">Voltar</a>
                 </div>
 
             </div>
@@ -107,28 +79,29 @@
                     <svg class="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                     </svg>
-                    <h3 class="text-lg font-bold text-gray-800">Confirmar Exclusão</h3>
+                    <h3 class="text-lg font-bold text-gray-800" th:text="#{produto.excluir.modal.titulo}">Confirmar Exclusão</h3>
                 </div>
-                <p class="text-gray-600 mb-6">
-                    Tem certeza que deseja excluir o produto
-                    <strong class="text-gray-800">Notebook Dell Inspiron 15</strong>?
+                <p class="text-gray-600 mb-2"
+                   th:text="${#messages.msg('produto.excluir.modal.mensagem', produto.nome)}">
+                    Tem certeza que deseja excluir este produto?
+                </p>
+                <p class="text-gray-500 mb-6" th:text="#{produto.excluir.modal.alerta}">
                     Esta ação não pode ser desfeita.
                 </p>
                 <div class="flex justify-end gap-3">
-                    <button type="button" id="btnCancelar" class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition">
-                        Cancelar
-                    </button>
-                    <form action="/produtos/1" method="post" class="inline">
+                    <button type="button" id="btnCancelar"
+                            class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition"
+                            th:text="#{common.cancelar}">Cancelar</button>
+                    <form th:action="@{/produtos/{id}(id=${produto.id})}" method="post" class="inline">
                         <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition">
-                            Sim, excluir
-                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition"
+                                th:text="#{produto.excluir.modal.confirmar}">Sim, excluir</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>

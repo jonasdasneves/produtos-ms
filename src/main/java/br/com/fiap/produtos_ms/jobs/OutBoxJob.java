@@ -21,11 +21,15 @@ public class OutBoxJob {
 
     private final OutBoxService outBoxService;
     private final JmsTemplate jmsTemplate;
+    private final Tracer tracer;
+    private final Propagator propagator;
     private final Logger logger = LoggerFactory.getLogger(OutBoxJob.class);
 
-    public OutBoxJob(OutBoxService outBoxService, JmsTemplate jmsTemplate) {
+    public OutBoxJob(OutBoxService outBoxService, JmsTemplate jmsTemplate, Tracer tracer, Propagator propagator) {
         this.outBoxService = outBoxService;
         this.jmsTemplate = jmsTemplate;
+        this.tracer = tracer;
+        this.propagator = propagator;
     }
 
     @Scheduled(fixedRate = 10000)
@@ -43,6 +47,14 @@ public class OutBoxJob {
 
     @Transactional
     void publish(OutboxEvent outboxEvent) throws Exception {
+
+        Span span = tracer.nextSpan()
+                .name("jms.outbox.publish")
+                .tag("destination", outboxEvent.getDestination())
+                .tag("outbox.event.id", outboxEvent.getId().toString())
+                .start();
+
+        try (var ignored = tracer.withSpan(span)) {
             outboxEvent.marcarComoEnviado();
             this.outBoxService.save(outboxEvent);
 
@@ -50,7 +62,28 @@ public class OutBoxJob {
             // JMS Message and inject the B3 trace headers before delivering.
             this.jmsTemplate.send(outboxEvent.getDestination(), session -> {
                 var message = session.createTextMessage(outboxEvent.getPayload());
+
+                // Inject the current span's context as JMS message properties.
+                // JMS property names cannot contain '-', so we replace with '_'.
+                // entregas-ms will read these properties to create a child span.
+                propagator.inject(span.context(), message, (msg, key, value) -> {
+                    try {
+                        assert msg != null;
+                        msg.setStringProperty(key.replace("-", "_"), value);
+                    } catch (JMSException e) {
+                        logger.warn("Falha ao injetar header de trace: {}", key, e);
+                    }
+                });
+
                 return message;
             });
+
+
+        } catch (NestedRuntimeException e) {
+            span.error(e);
+            throw new Exception("Falha ao processar o evento: " + outboxEvent.getId());
+        } finally {
+            span.end();
+        }
     }
 }

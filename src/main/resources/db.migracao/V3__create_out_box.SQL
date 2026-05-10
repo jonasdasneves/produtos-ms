@@ -1,5 +1,5 @@
 CREATE TABLE outbox_event (
-                              id         CHAR(36)     NOT NULL PRIMARY KEY,
+                              id         BINARY(16)     NOT NULL PRIMARY KEY,
                               reference_id  CHAR(36)     NOT NULL,
                               class TEXT NOT NULL,
                               destination TEXT NOT NULL,

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProdutoService {
-    Produto save(Produto produto);
+    void save(Produto produto);
     Produto findById(Long id);
     List<Produto> findAll();
     void delete(Long id);
